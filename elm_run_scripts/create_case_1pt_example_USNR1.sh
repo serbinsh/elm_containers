@@ -1,6 +1,6 @@
 #!/bin/bash
 
-WORKDIR=/ctsm_run_scripts/
+WORKDIR=/elm_run_scripts/
 cd $WORKDIR
 echo $PWD
 
@@ -12,7 +12,7 @@ echo "Number of years: "${num_years}
 # Setup simulation options
 export MODEL_SOURCE=/E3SM
 export MODEL_VERSION=ELM
-export CLM_HASH=`(cd ${MODEL_SOURCE};git log -n 1 --pretty=%h)`
+export ELM_HASH=`(cd ${MODEL_SOURCE};git log -n 1 --pretty=%h)`
 export CIME_MODEL=e3sm
 export MACH=docker
 export RES=f19_g16
