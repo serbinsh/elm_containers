@@ -1,3 +1,4 @@
+#!/bin/bash
 cd /E3SM/cime/scripts
 ./create_newcase --case /elm_output/f19_g16.ICLM45 --res f19_g16 --compset ICLM45 --mach docker --compiler gnu
 cd /elm_output/f19_g16.ICLM45

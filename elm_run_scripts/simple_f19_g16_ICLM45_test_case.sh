@@ -40,7 +40,7 @@ echo ${PWD}
 ./xmlchange --file env_run.xml --id DOUT_S_ROOT --val '$CASEROOT/run'
 ./xmlchange --file env_run.xml --id RUNDIR --val ${CASE_NAME}/run
 ./xmlchange --file env_build.xml --id EXEROOT --val ${CASE_NAME}/bld
-./xmlchange NTASKS=1
+#./xmlchange NTASKS=1
 
 # update input file location for other needed run files - this makes sure the files get stored in main output directory mapped to host computer
 ./xmlchange DIN_LOC_ROOT_CLMFORC=/data/atm/datm7
@@ -49,6 +49,17 @@ echo ${PWD}
 # turn off debug
 ./xmlchange DEBUG=FALSE
 ./xmlchange INFO_DBUG=0
+
+# Optimize PE layout for run
+./xmlchange NTASKS_ATM=1,ROOTPE_ATM=0
+./xmlchange NTASKS_CPL=1,ROOTPE_CPL=0
+./xmlchange NTASKS_LND=1,ROOTPE_LND=0
+./xmlchange NTASKS_OCN=1,ROOTPE_OCN=0
+./xmlchange NTASKS_ICE=1,ROOTPE_ICE=0
+./xmlchange NTASKS_GLC=1,ROOTPE_GLC=0
+./xmlchange NTASKS_ROF=1,ROOTPE_ROF=0
+./xmlchange NTASKS_WAV=1,ROOTPE_WAV=0
+./xmlchange NTASKS_ESP=1,ROOTPE_ESP=0
 
 # Set run location to case dir
 ./xmlchange --file env_build.xml --id CIME_OUTPUT_ROOT --val ${CASE_NAME}
