@@ -2,10 +2,10 @@
 # Debian ELM docker container
 # ----------------------------------------------------------------------
 
-FROM serbinsh/ctsm_containers:baseos-stable-gcc550
+FROM serbinsh/elm_containers:baseos-stable-gcc550
 MAINTAINER S.P. Serbin email: sserbin@bnl.gov
 
-## For now this needs to be done so that CLM python build scripts can find os.user. BUT how do we then run with a different user?
+## For now this needs to be done so that ELM python build scripts can find os.user. BUT how do we then run with a different user?
 # when using the --user flag it doesnt set the ENV var USER=$USER.  Maybe create a script that runs first that sets depending
 # on what --user XXXXX was set to at command/run?
 ENV USER=elmuser
@@ -53,7 +53,7 @@ RUN cd / \
     && chmod 775 create_case_custom_res_compset.sh \
     && chmod 775 create_case_1pt_example_USNR1.sh
 
-    ## Create US-NR1 example data directory. ---- Update script for E3SM!
+    ## Create US-NR1 example data directory. ---- Update scripts for E3SM!
 RUN cd / \
     && mkdir -p elm_example_data \
     && chown elmuser /elm_example_data \
