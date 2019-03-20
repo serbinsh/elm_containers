@@ -30,7 +30,7 @@ echo "Running with CTSM location: "${MODEL_SOURCE}
 cd ${MODEL_SOURCE}/cime/scripts/
 
 # create case
-./create_newcase --case ${CASE_NAME} --res ${RES} --compset ${COMP} --mach ${MACH} --run-unsupported
+./create_newcase --case ${CASE_NAME} --res ${RES} --compset ${COMP} --mach ${MACH}
 
 echo "*** Switching directory to CASE: ${CASE_NAME} "
 echo "Build options: res=${RES}; compset=${COMP}; mach ${MACH}"
