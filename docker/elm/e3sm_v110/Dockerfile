@@ -41,8 +41,8 @@ RUN cd / \
     && cd /E3SM/cime/config/e3sm/machines \
     && rm config_compilers.xml \
     && rm config_machines.xml \
-    && wget https://raw.githubusercontent.com/serbinsh/ctsm_containers/master/cime_config_files/cesm/machines/config_compilers.xml \
-    && wget https://raw.githubusercontent.com/serbinsh/ctsm_containers/master/cime_config_files/cesm/machines/config_machines.xml \
+    && wget https://raw.githubusercontent.com/serbinsh/elm_containers/master/cime_config_files/e3sm/machines/docker/config_compilers.xml \
+    && wget https://raw.githubusercontent.com/serbinsh/elm_containers/master/cime_config_files/e3sm/machines/docker/config_machines.xml \
     && cd / \
     && mkdir -p ctsm_run_scripts \
     && cd ctsm_run_scripts \
