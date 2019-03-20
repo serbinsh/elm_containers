@@ -72,8 +72,12 @@ RUN cd /E3SM/cime/scripts \
     && ./xmlchange EXEROOT=${PWD}/bld \
     && ./xmlchange NTASKS=1 \
     && ./xmlchange DIN_LOC_ROOT=$PWD \
-    && cd /ctsm_output/f19_g16.ICLM45 \
+    && cd /elm_output/f19_g16.ICLM45 \
     && ./case.setup \
     && ./case.build
+
+    ## Remove test build
+RUN cd /elm_output \
+    && rm -r f19_g16.ICLM45/
 
 ### EOF
