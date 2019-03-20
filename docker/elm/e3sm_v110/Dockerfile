@@ -47,7 +47,9 @@ RUN cd / \
     && mkdir -p elm_run_scripts \
     && cd elm_run_scripts \
     && wget https://raw.githubusercontent.com/serbinsh/elm_containers/master/elm_run_scripts/create_case_1pt_example_USNR1.sh \
-    && chmod 775 create_case_1pt_example_USNR1.sh
+    && wget https://raw.githubusercontent.com/serbinsh/elm_containers/master/elm_run_scripts/simple_f19_g16_ICLM45_test_case.sh \
+    && chmod 775 create_case_1pt_example_USNR1.sh \
+    && chmod 775 simple_f19_g16_ICLM45_test_case.sh
 
     ## Create US-NR1 example data directory. ---- Update scripts for E3SM!
 RUN cd / \
