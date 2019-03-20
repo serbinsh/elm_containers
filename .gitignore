@@ -1,0 +1,12 @@
+#Python
+.ipynb_checkpoints
+
+# Mac OSX files
+.DS_Store
+._.DS_Store
+._config_compilers.xml
+._config*
+._Singularity*
+._create*
+.Dockerfile.swp
+._Dockerfile
