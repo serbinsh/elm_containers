@@ -46,7 +46,7 @@ RUN cd / \
     && cd / \
     && mkdir -p elm_run_scripts \
     && cd elm_run_scripts \
-    && wget https://raw.githubusercontent.com/serbinsh/ctsm_containers/master/ctsm_run_scripts/create_case_1pt_example_USNR1.sh \
+    && wget https://raw.githubusercontent.com/serbinsh/elm_containers/master/ctsm_run_scripts/create_case_1pt_example_USNR1.sh \
     && chmod 775 create_case_1pt_example_USNR1.sh
 
     ## Create US-NR1 example data directory. ---- Update scripts for E3SM!
