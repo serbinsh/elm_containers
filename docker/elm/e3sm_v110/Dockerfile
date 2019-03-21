@@ -59,8 +59,15 @@ RUN cd / \
     && chown elmuser /elm_example_data \
     && cd elm_example_data \
     && wget https://github.com/serbinsh/ctsm_containers/raw/master/ctsm_example_data/USNR1/USNR1_CTSM_Example_Data.tar.gz \
-    && tar -zxvf USNR1_CTSM_Example_Data.tar.gz \
-    && rm USNR1_CTSM_Example_Data.tar.gz
+    && mkdir -p USNR1/ && tar -zxvf USNR1_CTSM_Example_Data.tar.gz -C USNR1/ \
+    && rm USNR1_CTSM_Example_Data.tar.gz \
+    && cd /elm_example_data/USNR1 \
+    && sed -i 's|ctsm_example_data|elm_example_data/USNR1|' user_datm.streams.txt.CLMGSWP3v1.Precip \
+    && sed -i 's|ctsm_example_data|elm_example_data/USNR1|' user_datm.streams.txt.CLMGSWP3v1.Solar \
+    && sed -i 's|ctsm_example_data|elm_example_data/USNR1|' user_datm.streams.txt.CLMGSWP3v1.TPQW \
+    && mkdir -p CLM1PT_data \
+    && mv SR_c_* CLM1PT_data/ \
+    && cd /
 
     ## setup elmuser to use with docker
 RUN export USER=elmuser

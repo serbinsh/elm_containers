@@ -10,16 +10,23 @@ export num_years=$2
 echo "Number of years: "${num_years}
 
 # Setup simulation options
+export SITE_NAME=USNR1	
 export MODEL_SOURCE=/E3SM
 export MODEL_VERSION=ELM
 export ELM_HASH=`(cd ${MODEL_SOURCE};git log -n 1 --pretty=%h)`
 export CIME_MODEL=e3sm
 export MACH=docker
-export RES=f19_g16
+export RES=CLM_USRDAT
 export COMP=ICLM45
 export CASEROOT=/elm_output
 export date_var=$(date +%s)
 export CASE_NAME=${CASEROOT}/${MODEL_VERSION}_${date_var}
+
+# Define forcing data for run
+export CLM_SURFDAT_DIR=/elm_example_data/${SITE_NAME}
+export CLM_DOMAIN_DIR=/elm_example_data/${SITE_NAME}
+export CLM_USRDAT_DOMAIN=domain.lnd.fv0.9x1.25_NR1.nc
+export CLM_USRDAT_SURDAT=surfdata_0.9x1.25_NR1.nc
 
 # setup case
 rm -rf ${CASE_NAME}
@@ -63,14 +70,20 @@ echo "*** Modifying xmls  ***"
 
 # domain file options
 ./xmlchange -a CLM_CONFIG_OPTS='-nofire'
-./xmlchange ATM_DOMAIN_FILE=domain.lnd.fv0.9x1.25_NR1.nc
-./xmlchange LND_DOMAIN_FILE=domain.lnd.fv0.9x1.25_NR1.nc
-./xmlchange ATM_DOMAIN_PATH=/ctsm_example_data/
-./xmlchange LND_DOMAIN_PATH=/ctsm_example_data/
+./xmlchange ATM_DOMAIN_FILE=${CLM_USRDAT_DOMAIN}
+./xmlchange LND_DOMAIN_FILE=${CLM_USRDAT_DOMAIN}
+./xmlchange ATM_DOMAIN_PATH=${CLM_DOMAIN_DIR}
+./xmlchange LND_DOMAIN_PATH=${CLM_DOMAIN_DIR}
+./xmlchange DATM_MODE=CLM1PT
+./xmlchange CLM_USRDAT_NAME=${SITE_NAME}
 ./xmlchange MOSART_MODE=NULL
 
+# met options
+./xmlchange --id DATM_CLMNCEP_YR_START --val 1998
+./xmlchange --id DATM_CLMNCEP_YR_END --val 2010
+
 # update input file location for other needed run files - this makes sure the files get stored in main output directory mapped to host computer
-./xmlchange DIN_LOC_ROOT_CLMFORC=/data/atm/datm7
+./xmlchange DIN_LOC_ROOT_CLMFORC=/elm_example_data/
 ./xmlchange DIN_LOC_ROOT=/data/
 
 # turn off debug
@@ -94,28 +107,27 @@ echo "*** Modifying xmls  ***"
 
 
 # =======================================================================================
-echo "*** Running case.setup ***"
-./case.setup
-
 cat >> user_nl_clm <<EOF
-fsurdat = '/ctsm_example_data/surfdata_0.9x1.25_NR1.nc'
+fsurdat = '${CLM_SURFDAT_DIR}/${CLM_USRDAT_SURDAT}'
 hist_empty_htapes = .true.
 hist_fincl1 = 'NEP','NPP','GPP','TOTECOSYSC','TOTVEGC','TLAI','EFLX_LH_TOT_R','TBOT','FSDS'
 hist_mfilt             = 8760
 hist_nhtfrq            = -1
 EOF
 
-## define met params
+# MODIFY THE DATM NAMELIST (DANGER ZONE - USERS BEWARE CHANGING)
+
 cat >> user_nl_datm <<EOF
-dtlimit  = 1.0e9, 1.0e9, 1.0e9
-streams = 'datm.streams.txt.CLMGSWP3v1.Solar 1998 1998 2010',
-          'datm.streams.txt.CLMGSWP3v1.Precip 1998 1998 2010',
-          'datm.streams.txt.CLMGSWP3v1.TPQW 1998 1998 2010',
-mapalgo = 'nn', 'nn', 'nn'
+taxmode = "cycle", "cycle", "cycle"
 EOF
 
-## define stream files and edit
-cp /ctsm_example_data/user_datm.streams.txt.CLMGSWP3v1.* .
+echo "*** Running case.setup ***"
+./case.setup
+
+# HERE WE NEED TO MODIFY THE STREAM FILE (DANGER ZONE - USERS BEWARE CHANGING)
+./preview_namelists
+cp run/datm.streams.txt.CLM1PT.CLM_USRDAT user_datm.streams.txt.CLM1PT.CLM_USRDAT
+
 
 echo *** Build case ***
 ./case.build
